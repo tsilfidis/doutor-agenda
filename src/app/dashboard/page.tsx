@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { db } from "@/db";
@@ -25,11 +26,20 @@ const DashboardPage = async () => {
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <h1>{session?.user?.name}</h1>
-      <h1>{session?.user?.email}</h1>
-      <SignOutButton />
+    <div className="flex items-start px-2">
+      <div className="mt-2 flex flex-col items-center gap-1">
+        <Image
+          src={session?.user?.image ?? ""}
+          alt={session?.user?.name ?? ""}
+          width={50}
+          height={50}
+          className="rounded-full"
+        />
+        <h1>Dashboard</h1>
+        <h1>{session?.user?.name}</h1>
+        <h1>{session?.user?.email}</h1>
+        <SignOutButton />
+      </div>
     </div>
   );
 };
