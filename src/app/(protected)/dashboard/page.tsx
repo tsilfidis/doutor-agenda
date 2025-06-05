@@ -29,7 +29,7 @@ const DashboardPage = async () => {
     <div className="flex items-start px-2">
       <div className="mt-2 flex flex-col items-center gap-1">
         <Image
-          src={session?.user?.image ?? ""}
+          src={session?.user?.image ?? "/avatar-user-default.svg"}
           alt={session?.user?.name ?? ""}
           width={50}
           height={50}
