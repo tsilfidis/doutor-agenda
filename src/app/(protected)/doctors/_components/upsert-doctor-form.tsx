@@ -6,7 +6,7 @@ import { NumericFormat } from "react-number-format";
 import { toast } from "sonner";
 import z from "zod";
 
-import { upsertDoctor } from "@/actions/create-clinics/upsert-doctor";
+import { upsertDoctor } from "@/actions/upsert-doctor";
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
@@ -33,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { doctorsTable } from "@/db/schema";
 
 import { medicalSpecialties } from "../_constants";
 
@@ -67,23 +68,29 @@ const formSchema = z
     },
   );
 
-const UpsertDoctorForm = () => {
+interface UpsertDoctorFormProps {
+  doctor?: typeof doctorsTable.$inferSelect;
+  onSuccess: () => void;
+}
+
+const UpsertDoctorForm = ({ doctor, onSuccess }: UpsertDoctorFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      specialty: "",
-      appointmentPrice: 0,
-      availableFromWeekDay: "1",
-      availableToWeekDay: "5",
-      availableFromTime: "",
-      availableToTime: "",
+      name: doctor?.name || "",
+      specialty: doctor?.specialty || "",
+      appointmentPrice: doctor?.appointmentPriceInCents || 0,
+      availableFromWeekDay: doctor?.availableFromWeekDay?.toString() || "1",
+      availableToWeekDay: doctor?.availableToWeekDay?.toString() || "5",
+      availableFromTime: doctor?.availableFromTime || "",
+      availableToTime: doctor?.availableToTime || "",
     },
   });
 
   const upsertDoctorAction = useAction(upsertDoctor, {
     onSuccess: () => {
       toast.success("Médico adicionado com sucesso");
+      onSuccess();
     },
     onError: () => {
       toast.error("Erro ao adicionar médico");
@@ -93,6 +100,7 @@ const UpsertDoctorForm = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     upsertDoctorAction.execute({
       ...values,
+      id: doctor?.id,
       availableFromWeekDay: parseInt(values.availableFromWeekDay),
       availableToWeekDay: parseInt(values.availableToWeekDay),
       appointmentPriceInCents: values.appointmentPrice * 100,
@@ -102,10 +110,14 @@ const UpsertDoctorForm = () => {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Adicionar Médico</DialogTitle>
+        <DialogTitle>
+          {doctor ? "Editar médico" : "Adicionar médico"}
+        </DialogTitle>
       </DialogHeader>
       <DialogDescription>
-        Adicione um novo médico para a sua clínica.
+        {doctor
+          ? "Edite as informações do médico."
+          : "Adicione um novo médico para a sua clínica."}
       </DialogDescription>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -378,10 +390,10 @@ const UpsertDoctorForm = () => {
               {upsertDoctorAction.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Adicionando...
+                  {doctor ? "Salvando..." : "Adicionando..."}
                 </>
               ) : (
-                "Adicionar"
+                `${doctor ? "Salvar" : "Adicionar"}`
               )}
             </Button>
           </DialogFooter>
