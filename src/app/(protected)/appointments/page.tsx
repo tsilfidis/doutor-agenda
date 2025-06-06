@@ -16,19 +16,19 @@ const AppointmentsPage = () => {
     <PageContainer>
       <PageHeader>
         <PageHeaderContent>
-          <PageTitle>Pacientes</PageTitle>
-          <PageDescription>
-            Gerencie os pacientes cadastrados no sistema
-          </PageDescription>
+          <PageTitle>Agendamentos</PageTitle>
+          <PageDescription>Gerencie os agendamentos do sistema</PageDescription>
         </PageHeaderContent>
         <PageActions>
           <Button>
             <Plus />
-            Adicionar Pacientes
+            Adicionar Agendamentos
           </Button>
         </PageActions>
       </PageHeader>
-      <PageContent></PageContent>
+      <PageContent>
+        <h1>Agendamentos</h1>
+      </PageContent>
     </PageContainer>
   );
 };

@@ -20,5 +20,15 @@
 - [x] Proteger página de médicos (autenticação)
 - [x] Criação de médicos & NextSafeAction
 - [x] Listagem de médicos
-- [] Atualização de médicos
-- [] Deleção de médicos
+- [x] Atualização de médicos
+- [x] Deleção de médicos
+
+## Roteiro Aula 04: Gerenciamento de Pacientes e Agendamentos
+
+- [] Criação de pacientes
+- [] Edição de pacientes
+- [] Listagem de pacientes
+- [] Deleção de pacientes
+- [] Criação de agendamentos
+- [] Listagem de agendamentos
+- [] Deleção de agendamentos
