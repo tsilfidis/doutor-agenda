@@ -60,7 +60,15 @@ const AppointmentsPage = async () => {
         </PageActions>
       </PageHeader>
       <PageContent>
-        <DataTable data={appointments} columns={appointmentsTableColumns} />
+        {appointments.length === 0 ? (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-muted-foreground text-sm">
+              Nenhum agendamento encontrado...
+            </p>
+          </div>
+        ) : (
+          <DataTable data={appointments} columns={appointmentsTableColumns} />
+        )}
       </PageContent>
     </PageContainer>
   );

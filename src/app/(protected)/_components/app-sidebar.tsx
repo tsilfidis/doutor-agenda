@@ -103,7 +103,10 @@ export function AppSidebar() {
                   <SidebarMenuButton size="lg">
                     <Avatar>
                       <AvatarImage
-                        src={session?.data?.user?.image ?? ""}
+                        src={
+                          session?.data?.user?.image ??
+                          "/avatar-user-default.svg"
+                        }
                         alt="Avatar"
                       />
                       <AvatarFallback>
