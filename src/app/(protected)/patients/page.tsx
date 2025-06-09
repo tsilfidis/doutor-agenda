@@ -1,4 +1,4 @@
-import { asc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -17,7 +17,7 @@ import { patientsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import AddPatientButton from "./_components/add-patient-button";
-import { PatientTableColumns } from "./_components/table-columns";
+import { patientsTableColumns } from "./_components/table-columns";
 
 const PatientsPage = async () => {
   const session = await auth.api.getSession({
@@ -29,19 +29,16 @@ const PatientsPage = async () => {
   if (!session.user.clinic) {
     redirect("/clinic-form");
   }
-
   const patients = await db.query.patientsTable.findMany({
-    orderBy: [asc(patientsTable.name)],
     where: eq(patientsTable.clinicId, session.user.clinic.id),
   });
-
   return (
     <PageContainer>
       <PageHeader>
         <PageHeaderContent>
           <PageTitle>Pacientes</PageTitle>
           <PageDescription>
-            Gerencie os pacientes cadastrados no sistema
+            Gerencie os pacientes da sua clínica
           </PageDescription>
         </PageHeaderContent>
         <PageActions>
@@ -49,7 +46,7 @@ const PatientsPage = async () => {
         </PageActions>
       </PageHeader>
       <PageContent>
-        <DataTable columns={PatientTableColumns} data={patients} />
+        <DataTable data={patients} columns={patientsTableColumns} />
       </PageContent>
     </PageContainer>
   );

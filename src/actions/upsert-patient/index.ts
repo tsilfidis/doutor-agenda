@@ -1,7 +1,5 @@
 "use server";
 
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
@@ -11,9 +9,6 @@ import { auth } from "@/lib/auth";
 import { actionClient } from "@/lib/next-safe-action";
 
 import { upsertPatientSchema } from "./schema";
-
-dayjs.extend(utc);
-
 export const upsertPatient = actionClient
   .schema(upsertPatientSchema)
   .action(async ({ parsedInput }) => {
@@ -27,31 +22,18 @@ export const upsertPatient = actionClient
       throw new Error("Clinic not found");
     }
 
-    const patient = await db
+    await db
       .insert(patientsTable)
       .values({
+        ...parsedInput,
         id: parsedInput.id,
-        clinicId: session.user.clinic.id,
-        name: parsedInput.name,
-        dateOfBirth: parsedInput.dateOfBirth,
-        email: parsedInput.email,
-        phoneNumber: parsedInput.phoneNumber,
-        sex: parsedInput.sex,
+        clinicId: session?.user.clinic?.id,
       })
       .onConflictDoUpdate({
         target: [patientsTable.id],
         set: {
-          name: parsedInput.name,
-          dateOfBirth: parsedInput.dateOfBirth,
-          email: parsedInput.email,
-          phoneNumber: parsedInput.phoneNumber,
-          sex: parsedInput.sex,
-          updatedAt: new Date(),
+          ...parsedInput,
         },
-      })
-      .returning();
-
+      });
     revalidatePath("/patients");
-
-    return patient[0];
   });
