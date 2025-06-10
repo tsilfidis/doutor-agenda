@@ -61,7 +61,7 @@ const AppointmentsPage = async () => {
       </PageHeader>
       <PageContent>
         {appointments.length === 0 ? (
-          <div className="flex h-full items-center justify-center">
+          <div className="mt-10 flex h-full items-center justify-center rounded-md border-1 border-gray-300 p-8">
             <p className="text-muted-foreground text-sm">
               Nenhum agendamento encontrado...
             </p>

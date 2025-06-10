@@ -27,9 +27,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} vsc-initialized antialiased`}
       >
         <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster position="bottom-center" richColors theme="light" />
