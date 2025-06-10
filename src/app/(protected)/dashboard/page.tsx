@@ -1,10 +1,18 @@
 import { headers } from "next/headers";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import {
+  PageActions,
+  PageContainer,
+  PageContent,
+  PageDescription,
+  PageHeader,
+  PageHeaderContent,
+  PageTitle,
+} from "@/components/ui/page-container";
 import { auth } from "@/lib/auth";
 
-import SignOutButton from "./_components/sign-uot-button";
+import { DatePicker } from "./_components/date-picker";
 
 const DashboardPage = async () => {
   const session = await auth.api.getSession({
@@ -20,21 +28,20 @@ const DashboardPage = async () => {
   }
 
   return (
-    <div className="flex items-start px-2">
-      <div className="mt-2 flex flex-col items-center gap-1">
-        <Image
-          src={session?.user?.image ?? "/avatar-user-default.svg"}
-          alt={session?.user?.name ?? ""}
-          width={50}
-          height={50}
-          className="rounded-full"
-        />
+    <PageContainer>
+      <PageHeader>
+        <PageHeaderContent>
+          <PageTitle>Dashboard</PageTitle>
+          <PageDescription>Gerencie sua clínica</PageDescription>
+        </PageHeaderContent>
+        <PageActions>
+          <DatePicker />
+        </PageActions>
+      </PageHeader>
+      <PageContent>
         <h1>Dashboard</h1>
-        <h1>{session?.user?.name}</h1>
-        <h1>{session?.user?.email}</h1>
-        <SignOutButton />
-      </div>
-    </div>
+      </PageContent>
+    </PageContainer>
   );
 };
 

@@ -7,17 +7,10 @@ import {
   Stethoscope,
   UserRound,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
   SidebarContent,
@@ -124,43 +117,29 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton size="lg">
-                    <Avatar>
-                      <AvatarImage
-                        src={
-                          session?.data?.user?.image ??
-                          "/avatar-user-default.svg"
-                        }
-                        alt="Avatar"
-                      />
-                      <AvatarFallback>
-                        <Image
-                          src="/avatar-user-default.svg"
-                          alt="Avatar"
-                          width={32}
-                          height={32}
-                        />
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-sm">
-                        {session?.data?.user?.clinic?.name}
-                      </p>
-                      <p className="text-muted-foreground">
-                        {session?.data?.user?.email}
-                      </p>
-                    </div>
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={handlesignOut}>
-                    <LogOut />
-                    Sair
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <SidebarMenuButton className="h-12">
+                <Avatar>
+                  <AvatarImage
+                    src={
+                      session?.data?.user?.image ?? "/avatar-user-default.svg"
+                    }
+                    alt="Avatar"
+                  />
+                </Avatar>
+                <div>
+                  <p className="text-sm">{session?.data?.user?.clinic?.name}</p>
+                  <p className="text-muted-foreground">
+                    {session?.data?.user?.email}
+                  </p>
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuButton>
+            <SidebarMenuButton
+              onClick={handlesignOut}
+              className="bg-primary text-background flex justify-center"
+            >
+              <LogOut />
+              Sair
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
