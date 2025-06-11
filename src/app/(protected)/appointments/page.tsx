@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -39,6 +39,7 @@ const AppointmentsPage = async () => {
       where: eq(doctorsTable.clinicId, session.user.clinic.id),
     }),
     db.query.appointmentsTable.findMany({
+      orderBy: [asc(appointmentsTable.date)],
       where: eq(appointmentsTable.clinicId, session.user.clinic.id),
       with: {
         patient: true,
