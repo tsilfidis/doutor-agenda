@@ -16,6 +16,7 @@ import { db } from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
+import AddPatientButton from "../patients/_components/add-patient-button";
 import AddAppointmentButton from "./_components/add-appointment-button";
 import { appointmentsTableColumns } from "./_components/table-columns";
 
@@ -56,6 +57,7 @@ const AppointmentsPage = async () => {
           </PageDescription>
         </PageHeaderContent>
         <PageActions>
+          <AddPatientButton />
           <AddAppointmentButton patients={patients} doctors={doctors} />
         </PageActions>
       </PageHeader>

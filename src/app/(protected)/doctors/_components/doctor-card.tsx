@@ -17,7 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -53,10 +53,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
     if (!doctor) return;
     deleteDoctorAction.execute({ id: doctor.id });
   };
-  const doctorInitials = doctor.name
-    .split(" ")
-    .map((name) => name[0])
-    .join("");
+
   const availability = getAvailability(doctor);
 
   return (
@@ -64,7 +61,16 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
       <CardHeader>
         <div className="flex items-center gap-2">
           <Avatar className="h-10 w-10">
-            <AvatarFallback>{doctorInitials}</AvatarFallback>
+            <AvatarImage
+              src={doctor.avatarImageUrl || undefined}
+              alt={doctor.name}
+            />
+            <AvatarFallback>
+              {doctor.name
+                .split(" ")
+                .map((name) => name[0])
+                .join("")}
+            </AvatarFallback>
           </Avatar>
           <div>
             <h3 className="text-sm font-medium">{doctor.name}</h3>

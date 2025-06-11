@@ -54,7 +54,7 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
     <>
       <Dialog open={upsertDialogIsOpen} onOpenChange={setUpsertDialogIsOpen}>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="ghost" size="icon">
               <MoreVerticalIcon className="h-4 w-4" />
             </Button>
@@ -70,7 +70,6 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
             <DropdownMenuItem
               onClick={() => setUpsertDialogIsOpen(true)}
               className="text-primary"
-              asChild
             >
               <EditIcon className="text-primary" />
               Editar
@@ -80,10 +79,9 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
                 <DropdownMenuItem
                   onSelect={(e) => e.preventDefault()}
                   className="text-destructive"
-                  asChild
                 >
                   <TrashIcon className="text-destructive" />
-                  Excluir
+                  Deletar
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>

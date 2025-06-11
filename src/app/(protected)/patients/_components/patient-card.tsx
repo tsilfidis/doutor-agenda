@@ -1,8 +1,23 @@
 "use client";
 
-import { Mail, Phone, User } from "lucide-react";
+import dayjs from "dayjs";
+import { Mail, Phone, TrashIcon, User } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
+import { toast } from "sonner";
 
+import { deletePatient } from "@/actions/delete-patient";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,6 +40,14 @@ interface PatientCardProps {
 const PatientCard = ({ patient }: PatientCardProps) => {
   const [isUpsertPatientDialogOpen, setIsUpsertPatientDialogOpen] =
     useState(false);
+  const deletePatientAction = useAction(deletePatient, {
+    onSuccess: () => {
+      toast.success("Paciente deletado com sucesso.");
+    },
+    onError: () => {
+      toast.error("Erro ao deletar paciente.");
+    },
+  });
 
   const patientInitials = patient.name
     .split(" ")
@@ -45,6 +68,11 @@ const PatientCard = ({ patient }: PatientCardProps) => {
     return sex === "male" ? "Masculino" : "Feminino";
   };
 
+  const handleDeletePatientClick = () => {
+    if (!patient) return;
+    deletePatientAction.execute({ id: patient.id });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -55,7 +83,8 @@ const PatientCard = ({ patient }: PatientCardProps) => {
           <div>
             <h3 className="text-sm font-medium">{patient.name}</h3>
             <p className="text-muted-foreground text-sm">
-              {getSexLabel(patient.sex)}
+              Data Nasc:{" "}
+              {dayjs.utc(patient.dateOfBirth).format("DD/MM/YYYY")}{" "}
             </p>
           </div>
         </div>
@@ -90,6 +119,31 @@ const PatientCard = ({ patient }: PatientCardProps) => {
             isOpen={isUpsertPatientDialogOpen}
           />
         </Dialog>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline" className="w-full">
+              <TrashIcon />
+              Deletar paciente
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Tem certeza que deseja deletar esse pacient?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Essa ação não pode ser revertida. Isso irá deletar o paciente e
+                todas as consultas agendadas.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDeletePatientClick}>
+                Deletar
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </CardFooter>
     </Card>
   );

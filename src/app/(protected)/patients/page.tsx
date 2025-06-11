@@ -17,6 +17,7 @@ import { patientsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import AddPatientButton from "./_components/add-patient-button";
+import PatientCard from "./_components/patient-card";
 import { patientsTableColumns } from "./_components/table-columns";
 
 const PatientsPage = async () => {
@@ -53,7 +54,16 @@ const PatientsPage = async () => {
             </p>
           </div>
         ) : (
-          <DataTable data={patients} columns={patientsTableColumns} />
+          <>
+            <div className="hidden xl:block">
+              <DataTable data={patients} columns={patientsTableColumns} />
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:hidden">
+              {patients.map((patient) => (
+                <PatientCard key={patient.id} patient={patient} />
+              ))}
+            </div>
+          </>
         )}
       </PageContent>
     </PageContainer>
