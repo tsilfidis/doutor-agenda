@@ -129,7 +129,7 @@ const PatientCard = ({ patient }: PatientCardProps) => {
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                Tem certeza que deseja deletar esse pacient?
+                Tem certeza que deseja deletar esse paciente?
               </AlertDialogTitle>
               <AlertDialogDescription>
                 Essa ação não pode ser revertida. Isso irá deletar o paciente e
